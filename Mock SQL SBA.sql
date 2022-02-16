@@ -1,6 +1,5 @@
 use mock_sba_db;
 
-
 -- 1. Create a query to return all orders made by users with the first name of “Marion” 
 SELECT ORDER_ID, o.USER_ID, o.STORE_ID  FROM orders o
 LEFT JOIN users u ON o.USER_ID=u.USER_ID 
@@ -12,27 +11,10 @@ SELECT * FROM users
 WHERE USER_ID NOT IN (SELECT USER_ID FROM orders);
 
 -- 3. Create a Query to select the names and prices of all items that have been part of 2 or more separate orders. 
-SELECT * FROM items i
+SELECT NAME, PRICE FROM items i
 JOIN order_items oi ON oi.ITEM_ID=i.ITEM_ID
-WHERE (SELECT COUNT(order_items.ORDER_ID)) >= 2
-GROUP BY oi.ITEM_ID;
-
-SELECT * FROM items i
-JOIN order_items oi ON oi.ITEM_ID=i.ITEM_ID
-GROUP BY oi.ORDER_ID;
-
-
-SELECT * FROM order_items oi
-RIGHT JOIN items i ON oi.ITEM_ID=i.ITEM_ID;
-GROUP BY oi.ORDER_ID;
-
-HAVING COUNT(oi.ITEM_ID) >= 2
+GROUP BY oi.ITEM_ID
 HAVING COUNT(oi.ORDER_ID) >= 2;
-WHERE COUNT(oi.ORDER_ID) >= 2
-WHERE oi.QUANTITY >= 2
-
-LEFT JOIN orders o ON o.USER_ID=u.USER_ID
-GROUP BY u.USER_ID
 
 -- 4. Create a query to return the Order Id, Item name, Item Price, and Quantity from orders made at stores in the city “New York”. Order by Order Id in ascending order. 
 
@@ -70,12 +52,5 @@ FROM orders o
 JOIN stores s ON s.STORE_ID=o.STORE_ID
 GROUP BY s.STORE_ID
 ORDER BY COUNT(ORDER_ID) DESC;
-
-
-SELECT * FROM orders;
-SELECT * FROM order_items;
-WHERE COUNT(ITEM_ID)>=2;
-GROUP BY ITEM_ID;
-SELECT * FROM items;
 
 
